@@ -6,21 +6,13 @@ using System.Linq;
 
 namespace tServe
 {
-    public class TServe : NancyModule
-    {
+	public class TServe : NancyModule
+	{
 
-        public TServe(IManifest manafest)
-        {
-            Get["/"] = parameters => JsonConvert.SerializeObject(manafest.GetEntries());
+		public TServe(IManifest manafest)
+		{
+			Get["/"] = parameters => JsonConvert.SerializeObject(manafest.GetEntries());
+		}
 
-
-
-
-        }
-
-
-
-
-
-    }
+	}
 }

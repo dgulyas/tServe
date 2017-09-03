@@ -59,6 +59,7 @@
     <Compile Include="FileUtils.cs" />
     <Compile Include="IManifest.cs" />
     <Compile Include="Manifest.cs" />
+    <Compile Include="ManifestEntry.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TServe.cs" />

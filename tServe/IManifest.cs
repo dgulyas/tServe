@@ -2,8 +2,8 @@
 
 namespace tServe
 {
-    public interface IManifest
-    {
-        List<string> GetEntries();
-    }
+	public interface IManifest
+	{
+		List<ManifestEntry> GetEntries();
+	}
 }

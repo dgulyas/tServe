@@ -6,25 +6,23 @@ using System.Linq;
 
 namespace tServe
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var DataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
-            
-            var files = FileUtils.GetAllFilesNested(DataDirectory);
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			var dataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
 
-            Manifest.Entries = files;
+			Manifest.GenerateEntries(dataDirectory);			
 
-            //Manifest.Entries.ForEach(f => Console.WriteLine(f));
+			//Manifest.Entries.ForEach(f => Console.WriteLine(f));
 
-            using (var host = new NancyHost(new Uri("http://localhost:1234")))
-            {
-                host.Start();
-                Console.WriteLine("Running on http://localhost:1234");
-                Console.ReadKey(); //letting cats shutdown systems since 1999.
-            }
+			using (var host = new NancyHost(new Uri("http://localhost:1234")))
+			{
+				host.Start();
+				Console.WriteLine("Running on http://localhost:1234");
+				Console.ReadKey(); //letting cats shutdown systems since 1999.
+			}
 
-        }
-    }
+		}
+	}
 }
