@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 
 namespace tServe
 {
@@ -10,9 +9,13 @@ namespace tServe
 	{
 		static void Main(string[] args)
 		{
+			var chunckDirectory = ConfigurationManager.AppSettings["ChunckDirectory"];
+			var chunckSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunckSize"]);
 			var dataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
 
-			Manifest.GenerateEntries(dataDirectory);			
+			FileUtils.SplitFile("f:\\test\\test.txt", "f:\\chunck", chunckSize);
+
+			Manifest.GenerateEntries(dataDirectory);
 
 			//Manifest.Entries.ForEach(f => Console.WriteLine(f));
 
