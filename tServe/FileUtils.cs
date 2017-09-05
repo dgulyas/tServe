@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
-using System.Collections;
 using System.Text;
 
 namespace tServe
@@ -31,7 +30,7 @@ namespace tServe
 				//add the folders in the current folder to the list of folders we need to look in
 				folders.AddRange(Directory.GetDirectories(currentFolder));
 			}
-			
+
 			return files;
 		}
 
@@ -59,8 +58,8 @@ namespace tServe
 		/// Split a file into chunks
 		/// </summary>
 		/// <param name="filePath">The file to split</param>
-		/// <param name="destinationPath">The folder that the chuncks should be put in</param>
-		/// <param name="chunckSize">The size of each chunck (last chunck is likely smaller)</param>
+		/// <param name="destinationPath">The folder that the chunks should be put in</param>
+		/// <param name="chunckSize">The size of each chunk (last chunk is likely smaller)</param>
 		/// https://msdn.microsoft.com/en-us/library/system.io.filestream(v=vs.110).aspx
 		public static void SplitFile(string filePath, string destinationPath, int chunckSize)
 		{
@@ -80,12 +79,12 @@ namespace tServe
 		}
 
 		/// <summary>
-		/// Buisiness logic for naming chuncks.
+		/// Business logic for naming chunks.
 		/// {destinationPath}\{chunckNumber}_{fileName}.chnk
 		/// </summary>
-		/// <param name="filePath">The path to the file that's being split into chuncks</param>
-		/// <param name="destinationPath">The path to the folder that the chuncks are going to</param>
-		/// <param name="chunckNumber">This chuncks number</param>
+		/// <param name="filePath">The path to the file that's being split into chunks</param>
+		/// <param name="destinationPath">The path to the folder that the chunks are going to</param>
+		/// <param name="chunckNumber">This chunks number</param>
 		/// <returns></returns>
 		public static string MakeChunckFilePath(string filePath, string destinationPath, int chunckNumber)
 		{

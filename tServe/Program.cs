@@ -1,7 +1,6 @@
-﻿using Nancy.Hosting.Self;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Configuration;
+using Nancy.Hosting.Self;
 
 namespace tServe
 {
