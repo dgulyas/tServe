@@ -8,13 +8,13 @@ namespace tServe
 	{
 		static void Main(string[] args)
 		{
-			var chunckDirectory = ConfigurationManager.AppSettings["ChunckDirectory"];
-			var chunckSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunckSize"]);
+			var chunkDirectory = ConfigurationManager.AppSettings["ChunkDirectory"];
+			var chunckSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunkSize"]);
 			var dataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
 
-			FileUtils.SplitFile("f:\\test\\test.txt", "f:\\chunck", chunckSize);
-
 			Manifest.GenerateEntries(dataDirectory);
+
+
 
 			//Manifest.Entries.ForEach(f => Console.WriteLine(f));
 
