@@ -4,19 +4,15 @@ using Nancy.Hosting.Self;
 
 namespace tServe
 {
-	class Program
+	public class Program
 	{
 		static void Main(string[] args)
 		{
 			var chunkDirectory = ConfigurationManager.AppSettings["ChunkDirectory"];
-			var chunckSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunkSize"]);
+			var chunkSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunkSize"]);
 			var dataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
 
 			Manifest.GenerateEntries(dataDirectory);
-
-
-
-			//Manifest.Entries.ForEach(f => Console.WriteLine(f));
 
 			using (var host = new NancyHost(new Uri("http://localhost:1234")))
 			{

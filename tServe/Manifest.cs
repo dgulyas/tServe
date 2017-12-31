@@ -7,14 +7,14 @@ namespace tServe
 	public class Manifest : IManifest
 	{
 		public static List<ManifestEntry> Entries = new List<ManifestEntry>();
-		public static int ChunckSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunkSize"]);
+		public static int ChunkSize = Convert.ToInt32(ConfigurationManager.AppSettings["ChunkSize"]);
 		public static string DataDirectory = ConfigurationManager.AppSettings["DataDirectory"];
-		public static string chunkDirectory = ConfigurationManager.AppSettings["ChunkDirectory"];
+		public static string ChunkDirectory = ConfigurationManager.AppSettings["ChunkDirectory"];
 
 		public static void GenerateEntries(string dataDirectory)
 		{
 			var filePaths = FileUtils.GetAllFilesNested(dataDirectory);
-			filePaths.ForEach(fp => Entries.Add(FileUtils.MakeManifestEntry(fp)));
+			filePaths.ForEach(fp => Entries.Add(FileUtils.MakeManifestEntry(fp, dataDirectory)));
 		}
 
 		public List<ManifestEntry> GetEntries()

@@ -48,10 +48,15 @@ namespace tServe
 			return folders;
 		}
 
-		public static ManifestEntry MakeManifestEntry(string filePath)
+		public static ManifestEntry MakeManifestEntry(string filePath, string dataDirectory)
 		{
 			var fileInfo = new FileInfo(filePath);
-			return new ManifestEntry { FilePath = filePath, FileSize = fileInfo.Length };
+			return new ManifestEntry {
+				FilePath = filePath,
+				FileSizeBytes = fileInfo.Length,
+				//TODO: Is it better to chop off the first x characters instead?
+				File = filePath.Replace(dataDirectory, "")
+			};
 		}
 
 		/// <summary>
@@ -59,46 +64,46 @@ namespace tServe
 		/// </summary>
 		/// <param name="filePath">The file to split</param>
 		/// <param name="destinationPath">The folder that the chunks should be put in</param>
-		/// <param name="chunckSize">The size of each chunk (last chunk is likely smaller)</param>
+		/// <param name="chunkSize">The size of each chunk (last chunk is likely smaller)</param>
 		/// https://msdn.microsoft.com/en-us/library/system.io.filestream(v=vs.110).aspx
-		public static void SplitFile(string filePath, string destinationPath, int chunckSize)
+		public static void SplitFile(string filePath, string destinationPath, int chunkSize)
 		{
-			var chunckNumber = 1;
+			var chunkNumber = 1;
 			using (FileStream fs = File.OpenRead(filePath))
 			{
-				byte[] chunck = new byte[chunckSize];
+				byte[] chunk = new byte[chunkSize];
 				UTF8Encoding temp = new UTF8Encoding(true);
-				while (fs.Read(chunck, 0, chunck.Length) > 0)
+				while (fs.Read(chunk, 0, chunk.Length) > 0)
 				{
-					var chunckFilePath = MakeChunckFilePath(filePath, destinationPath, chunckNumber);
-					WriteChunckToFile(chunckFilePath, chunck);
-					Console.WriteLine(temp.GetString(chunck));
-					chunckNumber++;
+					var chunkFilePath = MakeChunkFilePath(filePath, destinationPath, chunkNumber);
+					WriteChunkToFile(chunkFilePath, chunk);
+					Console.WriteLine(temp.GetString(chunk));
+					chunkNumber++;
 				}
 			}
 		}
 
 		/// <summary>
 		/// Business logic for naming chunks.
-		/// {destinationPath}\{chunckNumber}_{fileName}.chnk
+		/// {destinationPath}\{chunkNumber}_{fileName}.chnk
 		/// </summary>
 		/// <param name="filePath">The path to the file that's being split into chunks</param>
 		/// <param name="destinationPath">The path to the folder that the chunks are going to</param>
-		/// <param name="chunckNumber">This chunks number</param>
+		/// <param name="chunkNumber">This chunks number</param>
 		/// <returns></returns>
-		public static string MakeChunckFilePath(string filePath, string destinationPath, int chunckNumber)
+		public static string MakeChunkFilePath(string filePath, string destinationPath, int chunkNumber)
 		{
 			var fileName = Path.GetFileName(filePath);
-			fileName = $"{chunckNumber}_{fileName}.chnk";
+			fileName = $"{chunkNumber}_{fileName}.chnk";
 
 			return Path.Combine(destinationPath, fileName);
 		}
 
-		public static void WriteChunckToFile(string chunckFilePath, byte[] chunck)
+		public static void WriteChunkToFile(string chunkFilePath, byte[] chunk)
 		{
-			using (FileStream fs = File.Create(chunckFilePath))
+			using (FileStream fs = File.Create(chunkFilePath))
 			{
-				fs.Write(chunck, 0, chunck.Length);
+				fs.Write(chunk, 0, chunk.Length);
 			}
 		}
 
