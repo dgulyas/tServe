@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace tServe
 {
@@ -43,7 +42,7 @@ namespace tServe
 			var folders = new List<string>();
 			folders.AddRange(Directory.GetFiles(folderPath));
 
-			folders.ForEach(f => f = Path.Combine(folderPath, f));
+			folders.ForEach(f => f = Path.Combine(folderPath, f)); //TODO: Does this do anything?
 
 			return folders;
 		}
@@ -52,10 +51,10 @@ namespace tServe
 		{
 			var fileInfo = new FileInfo(filePath);
 			return new ManifestEntry {
-				FilePath = filePath,
 				FileSizeBytes = fileInfo.Length,
 				//TODO: Is it better to chop off the first x characters instead?
-				File = filePath.Replace(dataDirectory, "")
+				File = filePath.Replace(dataDirectory, ""),
+				Id = Guid.NewGuid().ToString().Replace("-", "")
 			};
 		}
 
@@ -72,12 +71,10 @@ namespace tServe
 			using (FileStream fs = File.OpenRead(filePath))
 			{
 				byte[] chunk = new byte[chunkSize];
-				UTF8Encoding temp = new UTF8Encoding(true);
 				while (fs.Read(chunk, 0, chunk.Length) > 0)
 				{
 					var chunkFilePath = MakeChunkFilePath(filePath, destinationPath, chunkNumber);
 					WriteChunkToFile(chunkFilePath, chunk);
-					Console.WriteLine(temp.GetString(chunk));
 					chunkNumber++;
 				}
 			}
@@ -85,7 +82,7 @@ namespace tServe
 
 		/// <summary>
 		/// Business logic for naming chunks.
-		/// {destinationPath}\{chunkNumber}_{fileName}.chnk
+		/// {destinationPath}\{chunkNumber}.chnk
 		/// </summary>
 		/// <param name="filePath">The path to the file that's being split into chunks</param>
 		/// <param name="destinationPath">The path to the folder that the chunks are going to</param>
@@ -93,14 +90,15 @@ namespace tServe
 		/// <returns></returns>
 		public static string MakeChunkFilePath(string filePath, string destinationPath, int chunkNumber)
 		{
-			var fileName = Path.GetFileName(filePath);
-			fileName = $"{chunkNumber}_{fileName}.chnk";
-
+			var fileName = $"{chunkNumber}.chnk";
 			return Path.Combine(destinationPath, fileName);
 		}
 
 		public static void WriteChunkToFile(string chunkFilePath, byte[] chunk)
 		{
+			Directory.CreateDirectory(Path.GetDirectoryName(chunkFilePath));
+
+
 			using (FileStream fs = File.Create(chunkFilePath))
 			{
 				fs.Write(chunk, 0, chunk.Length);

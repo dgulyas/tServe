@@ -56,7 +56,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChunkStore.cs" />
     <Compile Include="FileUtils.cs" />
     <Compile Include="IManifest.cs" />
     <Compile Include="Manifest.cs" />
@@ -66,7 +65,9 @@
     <Compile Include="TServe.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
