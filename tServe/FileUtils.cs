@@ -96,8 +96,11 @@ namespace tServe
 
 		public static void WriteChunkToFile(string chunkFilePath, byte[] chunk)
 		{
-			Directory.CreateDirectory(Path.GetDirectoryName(chunkFilePath));
-
+			var directoryPath = Path.GetDirectoryName(chunkFilePath);
+			if (directoryPath != null)
+			{
+				Directory.CreateDirectory(directoryPath);
+			}
 
 			using (FileStream fs = File.Create(chunkFilePath))
 			{

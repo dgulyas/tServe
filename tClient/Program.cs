@@ -64,7 +64,12 @@ namespace tClient
 		private static void DownloadFile(ManifestEntry entry)
 		{
 			var fileLocation = m_downloadPath + entry.File;
-
+			var DirectoryPath = Path.GetDirectoryName(fileLocation);
+			if (string.IsNullOrWhiteSpace(DirectoryPath))
+			{
+				throw new Exception($"The download location isn't in a folder. FileLocation:{fileLocation}");
+			}
+			Directory.CreateDirectory(DirectoryPath);
 			//TODO Should the file be deleted or over written it if exists? Throw an exception?
 			using (System.IO.StreamWriter file =
 				new System.IO.StreamWriter(fileLocation))
